@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Producto;
+
+class Lyj
+{
+    public static void Main()
+    {
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Ejercicio 7 lista de productos ordenados");
+        List<Producto> productos = new List<Producto>();//se crea la lista llamada productos, se almacena en la clase Prodcuto
+        //agrego los productos
+        productos.Add(new Producto(1, "Balón de fútbol", 10, 25000));
+        productos.Add(new Producto(2, "Raqueta de tenis", 5, 120000));
+        productos.Add(new Producto(3, "Guantes de boxeo", 20, 80000));
+        productos.Add(new Producto(4, "Casco de ciclismo", 15, 95000));
+        productos.Add(new Producto(5, "Camiseta deportiva", 30, 35000));
+        productos.Add(new Producto(6, "Zapatillas running", 12, 220000));
+        productos.Add(new Producto(7, "Pesa 5kg", 25, 40000));
+        productos.Add(new Producto(8, "Pelota de baloncesto", 8, 60000));
+        productos.Add(new Producto(9, "Bicicleta de montaña", 3, 850000));
+        productos.Add(new Producto(10, "Gorra deportiva", 18, 20000));
+        productos.Add(new Producto(11, "Balón", 10, 5250));
+        productos.Add(new Producto(12, "Raqueta", 5, 500));
+        productos.Add(new Producto(13, "Guantes", 20, 5000));
+
+        //los ordeno de por predio de mayor a menor
+        productos = productos.OrderBy(p => p.Precio).ToList();
+        //recorre toda la lista y la almacena en p (nueva variable temporal)
+        Console.WriteLine("\n lista ordenada por precio");
+        foreach (Producto p in productos)
+        {
+            Console.WriteLine($"ID: {p.Id}, Nombre: {p.Nombre}, Precio: ${p.Precio} pesos");
+        }
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Ejercicio 8: Buscar producto por ID");
+        Console.Write("Ingresa el ID del producto que deseas buscar: ");
+        int idBuscado = int.Parse(Console.ReadLine());
+        //creo una variable vinculada a la clase buscar por id
+        Producto encontrado = BuscarPorId(productos, idBuscado);
+
+        if (encontrado != null)
+        {
+            Console.WriteLine($"Producto encontrado: {encontrado.Nombre} - Precio: {encontrado.Precio}");
+        }
+        else
+        {
+            Console.WriteLine("No se encontró un producto con ese ID.");
+        }
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Ejercicio 9 actualizar precio de un producto lista");
+        bool actualizado = ActualizarPrecio(productos, 2, 6000);
+        if (actualizado)
+        {
+            Console.WriteLine("Precio actualizado con éxito.");
+            foreach (Producto p in productos)
+            {
+                Console.WriteLine($"ID: {p.Id}, Nombre: {p.Nombre}, Precio: ${p.Precio} pesos");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Producto no encontrado.");
+        }
+        Console.WriteLine("\n ---------------------------------");
+        Console.WriteLine("Ejercicio 10 eliminar por nombre");
+        Console.WriteLine("escriba el nombre del producto a eliminar");
+        string nombreEliminar = Console.ReadLine();
+        int eliminados = Producto.EliminarPorNombre(productos, nombreEliminar);
+        Console.WriteLine($"\n Se eliminaron {eliminados} productos.");
+        Console.WriteLine("\nLista actualizada:");
+        foreach (var p in productos)
+            Console.WriteLine($"{p.Id} - {p.Nombre} - {p.Precio}");
+        Console.WriteLine("\n ---------------------------------");
+        Console.WriteLine("Ejercicio 11 los nombre de los productos");
+        List<string> nombresProductos = Producto.nombresProd(productos);
+
+        Console.WriteLine("Nombres de todos los productos:");
+        foreach (string nombre in nombresProductos)
+        {
+            Console.WriteLine(nombre);
+        }
+        Console.WriteLine("\n ---------------------------------");
+        Console.WriteLine("Ejercicio 12 suma de precios productos");
+        double total = Producto.calcularprecio(productos);
+        Console.WriteLine($"la suma total de todos los productos es {total}");
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
