@@ -1,0 +1,638 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+// -------------------------------------------------------------
+// CLASE 1: LISTA ENLAZADA SIMPLE (Ejercicios 1 al 4)
+// -------------------------------------------------------------
+public class ListaEnlazada
+{
+    // Clase interna Nodo
+    public class Nodo
+    {
+        public int Valor;
+        public Nodo Siguiente;
+        public Nodo(int valor)
+        {
+            Valor = valor;
+            Siguiente = null;
+        }
+    }
+
+    private Nodo cabeza; // Primer nodo de la lista
+
+    public ListaEnlazada()
+    {
+        cabeza = null;
+    }
+
+    // Ejercicio 1: CONTAR NODOS ++++++
+    public int ContarNodos()
+    {
+        int contador = 0;
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            contador++;
+            actual = actual.Siguiente;
+        }
+        return contador;
+    }
+
+    // Metodo de apoyo que agrega al final (para pruebas)
+    public void Añadir(int valor)
+    {
+        Nodo nuevo = new Nodo(valor);
+        if (cabeza == null)
+        {
+            cabeza = nuevo;
+            return;
+        }
+        Nodo actual = cabeza;
+        while (actual.Siguiente != null)
+        {
+            actual = actual.Siguiente;
+        }
+        actual.Siguiente = nuevo;
+    }
+
+    // Ejercicio 2 Buscar que devuelve true/false +++++
+    public bool Buscar(int valor)
+    {
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            if (actual.Valor == valor) return true;
+            actual = actual.Siguiente;
+        }
+        return false;
+    }
+
+    // Variante opcional: Buscar y devolver el Nodo (o null si no existe)
+    public Nodo BuscarNodo(int valor)
+    {
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            if (actual.Valor == valor) return actual;
+            actual = actual.Siguiente;
+        }
+        return null;
+    }
+
+    // Ejercicio 3 Encontrar el último Nodo ++++
+    public Nodo ObtenerUltimoNodo()
+    {
+        if (cabeza == null)
+        {
+            return null; // Si la lista está vacía
+        }
+        Nodo actual = cabeza;
+        while (actual.Siguiente != null)
+        {
+            actual = actual.Siguiente; // Avanza hasta el final
+        }
+        return actual; // Devuelve el último nodo 
+    }
+
+    // Ejercicio 4 Sumar Todos Los Valores ++++
+    public int SumarValores()
+    {
+        int s = 0;
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            s += actual.Valor; // Sumar valor de nodo actual
+            actual = actual.Siguiente; // Pasar siguiente nodo
+        }
+        return s;
+    }
+    // Ejercicio 15 +++++++
+    public void ImprimirLista()
+    {
+        if (cabeza == null)
+        {
+            Console.WriteLine("La lista está vacía.");
+            return;
+        }
+
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            Console.Write(actual.Valor + " -> ");
+            actual = actual.Siguiente;
+        }
+        Console.WriteLine("null");
+    }
+    public bool TieneCiclo()
+    {
+        Nodo lento = cabeza;
+        Nodo rapido = cabeza;
+        while(rapido!= null && rapido.Siguiente != null)
+        {
+            lento = lento.Siguiente;//Avanza 1 paso
+            rapido = rapido.Siguiente.Siguiente;//Avanza dos pasos
+            if (lento == rapido)
+            {
+                return true; // hay ciclo
+            }
+        } 
+        return false; // no hay ciclo
+
+    }
+    public void EliminarNesimoDesdeFinal(int n)
+    {
+        int total = ContarNodos();
+        if (n <= 0 || n > total)
+        {
+            Console.WriteLine("Posición inválida.");
+            return;
+        }
+
+        int posDesdeInicio = total - n;
+
+        if (posDesdeInicio == 0)
+        {
+            // Eliminar la cabeza
+            cabeza = cabeza.Siguiente;
+            return;
+        }
+
+        Nodo actual = cabeza;
+        for (int i = 0; i < posDesdeInicio - 1; i++)
+        {
+            actual = actual.Siguiente;
+        }
+
+        // Saltar el nodo n-simo
+        actual.Siguiente = actual.Siguiente.Siguiente;
+    }
+    public void SepararParesImpares()
+    {
+        if (cabeza == null) return;
+
+        ListaEnlazada listaPares = new ListaEnlazada();
+        ListaEnlazada listaImpares = new ListaEnlazada();
+        Nodo actual = cabeza;
+
+        while (actual != null)
+        {
+            if (actual.Valor % 2 == 0)
+                listaPares.Añadir(actual.Valor);
+            else
+                listaImpares.Añadir(actual.Valor);
+
+            actual = actual.Siguiente;
+        }
+
+        // Reconstruir la lista original
+        cabeza = null;
+        actual = listaPares.cabeza;
+        while (actual != null)
+        {
+            Añadir(actual.Valor);
+            actual = actual.Siguiente;
+        }
+        actual = listaImpares.cabeza;
+        while (actual != null)
+        {
+            Añadir(actual.Valor);
+            actual = actual.Siguiente;
+        }
+    }
+
+
+}
+    // -------------------------------------------------------------
+    // CLASE 2: LISTA DOBLEMENTE ENLAZADA (Ejercicio 5)
+    // -------------------------------------------------------------
+public class ListaDoblementeEnlazada
+    {
+        public class NodoDoble
+        {
+            public int Valor;
+            public NodoDoble Siguiente;
+            public NodoDoble Anterior;
+
+            public NodoDoble(int valor)
+            {
+                Valor = valor;
+                Siguiente = null;
+                Anterior = null;
+            }
+        }
+
+        private NodoDoble cabeza;
+
+        public ListaDoblementeEnlazada()
+        {
+            cabeza = null;
+        }
+
+        public void Añadir(int valor)
+        {
+            NodoDoble nuevo = new NodoDoble(valor);
+            if (cabeza == null)
+            {
+                cabeza = nuevo;
+                return;
+            }
+            NodoDoble actual = cabeza;
+            while (actual.Siguiente != null)
+            {
+                actual = actual.Siguiente;
+            }
+            actual.Siguiente = nuevo;
+            nuevo.Anterior = actual;
+        }
+
+        // Ejercicio 5: Encontrar el Valor Máximo
+        public int EncontrarMaximo()
+        {
+            if (cabeza == null)
+            {
+                Console.WriteLine("La lista está vacía");
+                return int.MinValue;
+            }
+
+            int max = cabeza.Valor;
+            NodoDoble actual = cabeza.Siguiente;
+            while (actual != null)
+            {
+                if (actual.Valor > max)
+                    max = actual.Valor;
+                actual = actual.Siguiente;
+            }
+            return max;
+        }
+}
+
+// -------------------------------------------------------------
+// CLASE 3: LISTA CIRCULAR (Ejercicio 6)
+// -------------------------------------------------------------
+public class ListaCircular
+{
+    public class NodoCircular
+    {
+        public int Valor;
+        public NodoCircular Siguiente;
+
+        public NodoCircular(int valor)
+        {
+            Valor = valor;
+            Siguiente = null;
+        }
+    }
+
+    private NodoCircular cabeza;
+
+    public ListaCircular()
+    {
+        cabeza = null;
+    }
+
+    public void Añadir(int valor)
+    {
+        NodoCircular nuevo = new NodoCircular(valor);
+        if (cabeza == null)
+        {
+            cabeza = nuevo;
+            cabeza.Siguiente = cabeza; // Se apunta a sí misma
+            return;
+        }
+        NodoCircular actual = cabeza;
+        while (actual.Siguiente != cabeza)
+        {
+            actual = actual.Siguiente;
+        }
+        actual.Siguiente = nuevo;
+        nuevo.Siguiente = cabeza;
+    }
+    // Ejercicio 17 ++++++++
+    public bool EsCircular()
+    {
+        if (cabeza == null) return false;
+        NodoCircular actual = cabeza.Siguiente;
+        while (actual != null && actual != cabeza)
+        {
+            actual=actual.Siguiente;
+        }
+        return actual == cabeza; // si vuelve a la cabeza es true
+    }
+
+    // Ejercicio 6: Convertir a Arreglo ++++++++++
+    public int[] ConvertirAArreglo()
+    {
+        if (cabeza == null)
+        {
+            return new int[0]; // Si está vacía, devuelve arreglo vacío
+        }
+
+        // Primero contamos los nodos
+        int contador = 0;
+        NodoCircular actual = cabeza;
+        do
+        {
+            contador++;
+            actual = actual.Siguiente;
+        } while (actual != cabeza);
+
+        int[] arreglo = new int[contador];
+
+        // Luego copiamos los valores
+        actual = cabeza;
+        for (int i = 0; i < contador; i++)
+        {
+            arreglo[i] = actual.Valor;
+            actual = actual.Siguiente;
+        }
+
+        return arreglo;
+    } 
+    
+    // Ejercicio 18 ++++++
+    public int ContarNodosCirculares()
+    {
+        if (cabeza == null)
+            return 0;
+        int contador = 0;
+        NodoCircular actual = cabeza;
+        do
+        {
+            contador++;
+            actual = actual.Siguiente;
+        } while (actual != cabeza);
+        return contador;
+    }
+    //Ejercicio 19 +++++++++++ 
+    public void InsertarAlFinalCircular(int valor)
+    {
+        NodoCircular nuevo = new NodoCircular(valor);
+        if (cabeza == null)
+        {
+            // Lista esta vacia: el nuevo nodo se apunta a si mismo
+            cabeza = nuevo;
+            cabeza.Siguiente = cabeza;
+            return;
+        }
+        NodoCircular actual = cabeza;
+        while(actual.Siguiente != cabeza)
+        {
+            actual= actual.Siguiente;
+        }
+        actual.Siguiente = nuevo;
+        nuevo.Siguiente= cabeza;
+    }
+    //EJERCICIO 20 +++++++++++++++++++++++++++++++++++++++++++++
+    public void EliminarCabezaCircular()
+    {
+        if (cabeza == null)
+            return; // Lista vacía, no hay nada que eliminar
+
+        if (cabeza.Siguiente == cabeza)
+        {
+            // Solo hay un nodo
+            cabeza = null;
+            return;
+        }
+
+        // Más de un nodo
+        NodoCircular ultimo = cabeza;
+        while (ultimo.Siguiente != cabeza)
+        {
+            ultimo = ultimo.Siguiente;
+        }
+
+        // Apuntar el último nodo al segundo nodo
+        ultimo.Siguiente = cabeza.Siguiente;
+
+        // Actualizar cabeza
+        cabeza = cabeza.Siguiente;
+    }
+    //EJERCICIO 21 ++++++++++++++++++++++++++++++++++++++++
+    public void Rotar(int pasos)
+    {
+        if (cabeza == null || pasos <= 0)
+            return;
+        int total = ContarNodosCirculares();
+        pasos = pasos % total; // Evita rotaciones innecesaias
+        for (int i = 0; i < pasos; i++)
+        {
+            cabeza = cabeza.Siguiente;
+        }
+    }
+    public NodoCircular Cabeza
+    {
+        get { return cabeza; }
+    }
+}
+// ---------------------------------------------------
+ // Clase 4 Lista Enlazada Sobre Arreglo
+ // --------------------------------------------
+ public class NodoArray
+        {
+            public int Valor;
+            public int Siguiente; // índice del siguiente nodo
+        }
+
+        public class ListaEnlazadaArray
+        {
+            private NodoArray[] memoria;
+            private int primero;
+            private int libre;
+
+            // Constructor: inicializa memoria y lista de nodos libres
+            public ListaEnlazadaArray(int tamaño)
+            {
+                memoria = new NodoArray[tamaño];
+                for (int i = 0; i < tamaño; i++)
+                {
+                    memoria[i] = new NodoArray();
+                    memoria[i].Siguiente = i + 1; // enlazamos los libres
+                }
+                memoria[tamaño - 1].Siguiente = -1; // fin de lista de libres
+                primero = -1;
+                libre = 0;
+            
+
+            }
+    // EJERCICIO 16 +++++++
+    public void Desfragmentar()
+    {
+        if (primero == -1) return; // Lista vacía
+
+        int nuevoIndice = 0;
+        int actual = primero;
+        NodoArray[] nuevaMemoria = new NodoArray[memoria.Length];
+        for (int i = 0; i < memoria.Length; i++)
+            nuevaMemoria[i] = new NodoArray();
+
+        // Copiar valores activos al inicio
+        while (actual != -1)
+        {
+            nuevaMemoria[nuevoIndice].Valor = memoria[actual].Valor;
+            // Apuntamos al siguiente nodo activo en la nueva posición
+            nuevaMemoria[nuevoIndice].Siguiente = nuevoIndice + 1;
+            actual = memoria[actual].Siguiente;
+            nuevoIndice++;
+        }
+
+        if (nuevoIndice > 0)
+            nuevaMemoria[nuevoIndice - 1].Siguiente = -1; // último nodo apunta a -1
+
+        // Reconstruir lista de libres después de los activos
+        libre = nuevoIndice;
+        for (int i = libre; i < memoria.Length - 1; i++)
+            nuevaMemoria[i].Siguiente = i + 1;
+        if (libre < memoria.Length)
+            nuevaMemoria[memoria.Length - 1].Siguiente = -1;
+
+        memoria = nuevaMemoria;
+        primero = (nuevoIndice > 0) ? 0 : -1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // Ejercicio 13: Insertar al inicio ++++
+    public void InsertarAlInicio(int valor)
+            {
+                if (libre == -1)
+                {
+                    Console.WriteLine("No hay espacio libre en la memoria para insertar.");
+                    return;
+                }
+
+                int nuevoIndice = libre;             // tomar primer índice libre
+                libre = memoria[libre].Siguiente;    // actualizar lista de libres
+
+                memoria[nuevoIndice].Valor = valor;  // asignar valor
+                memoria[nuevoIndice].Siguiente = primero; // apuntar al primer nodo actual
+
+                primero = nuevoIndice;               // actualizar cabeza
+            }
+
+            // Método de prueba para mostrar la lista
+            public void MostrarLista()
+            {
+                int actual = primero;
+                while (actual != -1)
+                {
+                    Console.Write(memoria[actual].Valor + "  ");
+                    actual = memoria[actual].Siguiente;
+                }
+                Console.WriteLine("null");
+            }
+
+            public bool EliminarPorValor(int valor)
+            {
+                if (primero == -1)
+                {
+                    // La lista está vacía
+                    return false;
+                }
+
+                int actual = primero;
+                int anterior = -1;
+
+                // Buscar el nodo con el valor dado
+                while (actual != -1 && memoria[actual].Valor != valor)
+                {
+                    anterior = actual;
+                    actual = memoria[actual].Siguiente;
+                }
+
+                if (actual == -1)
+                {
+                    // No se encontró el valor
+                    return false;
+                }
+
+                // Ajustar enlaces para eliminar el nodo
+                if (anterior == -1)
+                {
+                    // Nodo a eliminar es el primero
+                    primero = memoria[actual].Siguiente;
+                }
+                else
+                {
+                    memoria[anterior].Siguiente = memoria[actual].Siguiente;
+                }
+
+                // Marcar nodo como libre
+                memoria[actual].Siguiente = libre;
+                libre = actual;
+
+                return true; // Se eliminó el nodo
+            }
+            public int Libre
+            {
+                get { return libre; }
+            }
+        }
+
+// --------------------
+// Lista Enlazada para Nombres ejercicios con nombres
+//---------------------
+public class ListaEnlazadaNombres
+{
+    public class Nodo
+    {
+        public string Valor;
+        public Nodo Siguiente;
+        public Nodo(string valor)
+        {
+            Valor = valor;
+            Siguiente = null;
+        }
+    }
+
+    private Nodo cabeza;
+
+    public ListaEnlazadaNombres()
+    {
+        cabeza = null;
+    }
+
+    public void Añadir(string valor)
+    {
+        Nodo nuevo = new Nodo(valor);
+        if (cabeza == null)
+        {
+            cabeza = nuevo;
+            return;
+        }
+        Nodo actual = cabeza;
+        while (actual.Siguiente != null)
+        {
+            actual = actual.Siguiente;
+        }
+        actual.Siguiente = nuevo;
+    }
+    //Ejercicio 14 ++++++
+    public void ImprimirLista()
+    {
+        if (cabeza == null)
+        {
+            Console.WriteLine("La lista está vacía.");
+            return;
+        }
+
+        Nodo actual = cabeza;
+        while (actual != null)
+        {
+            Console.WriteLine(actual.Valor );
+            actual = actual.Siguiente;
+        }
+        
+    }
+}
