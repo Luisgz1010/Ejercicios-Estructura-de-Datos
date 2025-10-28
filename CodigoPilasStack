@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+
+class Program
+{
+    static void Mai(string[] args)
+    {
+
+        Console.Write("Escriba una cadena de texto: ");
+        string texto = Console.ReadLine();
+
+
+        Stack<string> pila = new Stack<string>();
+
+
+        for (int i = 0; i < texto.Length; i++)
+        {
+            pila.Push(texto[i].ToString());
+        }
+
+
+        string textoalcontrario = " ";
+        while (pila.Count > 0)
+        {
+            textoalcontrario += pila.Pop();
+        }
+
+
+        Console.WriteLine("Texto invertido:");
+        Console.WriteLine(textoalcontrario);
+
+
+    }
+    // Metodos de clase stack
+    // Push
+    // Count
+    // Pop
+    // Desarrollar un programa que solicite una cadena de texto y utilizando una pila muestre los caracteres en inverso la cadena debe que mostrar los caracteres al contrario ejemplo hola mundo odnum aloh
+
+
+}
