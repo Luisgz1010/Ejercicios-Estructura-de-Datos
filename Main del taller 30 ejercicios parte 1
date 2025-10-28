@@ -1,0 +1,301 @@
+using System;
+using System.ComponentModel;
+using static ListaCircular;
+
+class LuisLopezYJoedPalacio
+{
+    static void Main(string[] args)
+    {
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Ejercicio 1 Contar nodos");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(41);
+            lista.Añadir(42);
+            lista.Añadir(43);
+            Console.WriteLine($"Cantidad de nodos {lista.ContarNodos()}");
+        }
+        {
+            Console.WriteLine("----------------------------");
+            Console.WriteLine("Ejercicio 2 Buscar Valor");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(50);
+            lista.Añadir(30);
+            lista.Añadir(80);
+            Console.WriteLine($"Esta el numero 10? {lista.Buscar(10)}"); //falso
+            Console.WriteLine($"Esta el numero 80? {lista.Buscar(80)}"); //verdadero
+            Console.WriteLine("-----------------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 3 obtener ultimo nodo");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(777);
+            lista.Añadir(888);
+            lista.Añadir(999);
+            ListaEnlazada.Nodo ultimo = lista.ObtenerUltimoNodo();
+            Console.WriteLine($"Ultimo nodo encontrado: {ultimo.Valor}");
+            
+
+            Console.WriteLine("------------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 4");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(1);
+            lista.Añadir(15);
+            lista.Añadir(77);
+            int total = lista.SumarValores();
+            Console.WriteLine($"La suma de los numeros añadidos es {total} ");
+            Console.WriteLine("--------------------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 5");
+            ListaDoblementeEnlazada listaDoble = new ListaDoblementeEnlazada();
+            listaDoble.Añadir(15);
+            listaDoble.Añadir(500);
+            listaDoble.Añadir(-5);
+            listaDoble.Añadir(5);
+            Console.WriteLine($"El valor maximo es {listaDoble.EncontrarMaximo()}");
+            Console.WriteLine("---------------------------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 6");
+            ListaCircular listaCircular = new ListaCircular();
+            listaCircular.Añadir(1);
+            listaCircular.Añadir(2);
+            listaCircular.Añadir(3);
+            listaCircular.Añadir(4);
+            int[] arreglo = listaCircular.ConvertirAArreglo();
+            Console.WriteLine("Convertido a arrelgo");
+            foreach (int valor in arreglo)
+            {
+                Console.WriteLine(valor);
+               
+            }
+            Console.WriteLine("--------------------");
+        }
+        {
+             Console.WriteLine("Ejercicio 13: ListaEnlazadaArray");
+             ListaEnlazadaArray listaArray = new ListaEnlazadaArray(5); // capacidad 5
+             // Insertar valores al inicio
+             listaArray.InsertarAlInicio(10);
+             listaArray.InsertarAlInicio(20);
+             listaArray.InsertarAlInicio(30);
+             Console.WriteLine("Contenido de la lista despues de 3 Añadidos:");
+             listaArray.MostrarLista(); // Debería mostrar: 30 -> 20 -> 10 -> null
+             listaArray.InsertarAlInicio(40);
+             listaArray.InsertarAlInicio(50);
+
+             Console.WriteLine("Contenido de la lista despues de 5 Añadidos:");
+             listaArray.MostrarLista(); // Debería mostrar: 50 -> 40 -> 30 -> 20 -> 10 -> null
+
+             // Intentar insertar cuando ya no hay espacio
+             listaArray.InsertarAlInicio(60); // Mensaje: No hay espacio libre
+             Console.WriteLine("-----------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 14: Eliminar por valor y mostrar índice libre");
+
+            ListaEnlazadaArray listaArray = new ListaEnlazadaArray(5);
+
+            // Insertar algunos valores
+            listaArray.InsertarAlInicio(18);
+            listaArray.InsertarAlInicio(45);
+            listaArray.InsertarAlInicio(33);
+
+            Console.WriteLine("Lista antes de eliminar:");
+            listaArray.MostrarLista(); // 33 25 18  null
+
+            // Eliminar un valor existente
+            bool eliminado = listaArray.EliminarPorValor(45);
+            Console.WriteLine($"¿Se eliminó el 45? {eliminado}");
+
+            Console.WriteLine("Lista después de eliminar el 45:");
+            listaArray.MostrarLista(); // 30 10  null
+
+            // Mostrar índice libre actual
+            Console.WriteLine($"Índice libre actual: {listaArray.Libre}");
+
+            // Insertar un nuevo valor para reutilizar el espacio libre
+            listaArray.InsertarAlInicio(5);
+            Console.WriteLine("Lista después de insertar el 5:");
+            listaArray.MostrarLista(); // 5 33 18  null
+            Console.WriteLine("----------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 15");
+            ListaEnlazadaNombres lista = new ListaEnlazadaNombres();
+            lista.Añadir("Luis");
+            lista.Añadir("Joed");
+            lista.Añadir("Elyan");
+            lista.Añadir("Juan");
+            lista.Añadir("Alejandra");
+            lista.ImprimirLista();
+            Console.WriteLine("------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 16");
+            ListaEnlazadaArray lista = new ListaEnlazadaArray(5);
+
+            // Insertar algunos números
+            lista.InsertarAlInicio(10);
+            lista.InsertarAlInicio(20);
+            lista.InsertarAlInicio(30);
+            Console.WriteLine("Lista después de insertar 3 elementos:");
+            lista.MostrarLista();
+
+            // Eliminar un valor
+            lista.EliminarPorValor(20);
+            Console.WriteLine("Lista después de eliminar 20:");
+            lista.MostrarLista();
+            Console.WriteLine($"Índice libre: {lista.Libre}");
+
+            // Desfragmentar
+            lista.Desfragmentar();
+            Console.WriteLine("Lista después de desfragmentar:");
+            lista.MostrarLista();
+            Console.WriteLine($"Índice libre: {lista.Libre}");
+
+            // Insertar un nuevo valor para usar espacio libre
+            lista.InsertarAlInicio(5);
+            Console.WriteLine("Lista después de insertar 5:");
+            lista.MostrarLista();
+            Console.WriteLine("---------------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 17, 18, 19,20 "); 
+            ListaCircular listaCircular = new ListaCircular();
+            listaCircular.Añadir(400);
+            listaCircular.Añadir(500);
+            listaCircular.Añadir(600);
+            Console.WriteLine($"es circular? : {listaCircular.EsCircular()}");
+            Console.WriteLine("Recorriendo lista circular 2 vueltas:");
+            ListaCircular.NodoCircular nodo = listaCircular.Cabeza; //  Usamos un getter 
+            for (int i = 0; i < 6; i++) // 2 vueltas, 3 nodos * 2
+            {
+                Console.Write(nodo.Valor + " - ");
+                nodo = nodo.Siguiente;
+            }
+            int total = listaCircular.ContarNodosCirculares();
+            Console.WriteLine($"\n Cantidad de nodos en la lista circular: {total}");// Contar nodos ejercicio 18
+            
+            listaCircular.InsertarAlFinalCircular(700); //Añadir ejercicio 19
+            total = listaCircular.ContarNodosCirculares();
+            ListaCircular.NodoCircular nodo2 = listaCircular.Cabeza;
+            Console.WriteLine("Lista despues de ingresar 700");
+            for (int i = 0; i < total; i++)
+            {
+                Console.Write(nodo2.Valor + "  ");
+                nodo2 = nodo2.Siguiente;
+            }
+            listaCircular.EliminarCabezaCircular(); // eliminar Ejercicio 20
+            total = listaCircular.ContarNodosCirculares();
+            ListaCircular.NodoCircular nodo3 = listaCircular.Cabeza;
+            Console.WriteLine("\n Lista despues de eliminar la cabeza:");
+            for (int i = 0;i < total; i++)
+            {
+                Console.Write(nodo3.Valor + "  ");
+                nodo3 = nodo3.Siguiente;
+            }
+            Console.Write("\n Ingrese la cantidad de pasos para rotar la lista: "); // Ejercicio 21 Rotar
+            string texto = Console.ReadLine();
+            int pasos;
+            if (int.TryParse(texto, out pasos))
+            {
+                listaCircular.Rotar(pasos); // llamamos al método Rotar que debe estar en tu clase ListaCircular
+                
+                total = listaCircular.ContarNodosCirculares(); // Mostrar lista después de rotar
+                ListaCircular.NodoCircular nodo4 = listaCircular.Cabeza;
+                Console.WriteLine($"Lista después de rotar {pasos} pasos:");
+                for (int i = 0; i < total; i++)
+                {
+                    Console.Write(nodo4.Valor + "  ");
+                    nodo4 = nodo4.Siguiente;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada inválida. Debe ser un número entero.");
+            }
+
+            Console.WriteLine("\n-----------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 28");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(10);
+            lista.Añadir(20);
+            lista.Añadir(30);
+
+            // Probar ciclo: hacer que el último nodo apunte al primero
+            ListaEnlazada.Nodo ultimo = lista.ObtenerUltimoNodo();
+            ultimo.Siguiente = lista.BuscarNodo(10); // crea ciclo
+
+            // Validar si hay ciclo
+            bool hayCiclo = lista.TieneCiclo();
+            Console.WriteLine($"La lista tiene ciclo? {hayCiclo}");
+            Console.WriteLine("\n --------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 29");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(110);
+            lista.Añadir(220);
+            lista.Añadir(300);
+            lista.Añadir(485);
+            lista.Añadir(550);
+            lista.Añadir(670);
+
+            Console.WriteLine("Lista original:");
+            lista.ImprimirLista(); // 110-220-300-485-550-670
+
+            Console.Write("Ingrese el Nsimo nodo desde el final que desea eliminar: (posicion de 1 a 6 al contrario ) : ");
+            int n = int.Parse(Console.ReadLine());
+
+            lista.EliminarNesimoDesdeFinal(n);
+
+            Console.WriteLine($"Lista después de eliminar el {n}-ésimo nodo desde el final:");
+            lista.ImprimirLista();
+            Console.WriteLine("-----------------------------------------");
+        }
+        {
+            Console.WriteLine("Ejercicio 30");
+            ListaEnlazada lista = new ListaEnlazada();
+            lista.Añadir(111);
+            lista.Añadir(221);
+            lista.Añadir(399);
+            lista.Añadir(480);
+            lista.Añadir(550);
+            lista.Añadir(678);
+
+            Console.WriteLine("Lista original:");
+            lista.ImprimirLista(); // Muestra los numeros de la lista
+            lista.SepararParesImpares();
+
+            Console.WriteLine("Lista después de separar pares e impares primero mostrara los pares luego los impares:");
+            lista.ImprimirLista(); // Muestra primero los pares luego los impares
+
+            Console.WriteLine("-----------------------------------");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+    
+
+    
+        
+
+         
+
+
+
+
+        
