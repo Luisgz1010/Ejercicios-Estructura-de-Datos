@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+
+class NotasTallerClase
+{
+    static void Main()
+    {
+        List<double> Notas = new List<double>();
+        int op;
+
+        do
+        {
+            Console.WriteLine("Bienvenido al menu estudiantil ");
+            Console.WriteLine(" MENU ");
+            Console.WriteLine("1. Agregar Nota");
+            Console.WriteLine("2. Eliminar Nota");
+            Console.WriteLine("3. Buscar Nota");
+            Console.WriteLine("4. Ordenar Notas");
+            Console.WriteLine("5. Mostrar todas las Notas");
+            Console.WriteLine("6. Salir");
+            Console.Write("Por favor elija una opción de 1 a 6: ");
+            op = int.Parse(Console.ReadLine());
+
+            switch (op)
+            {
+                case 1:
+                    Console.Write("Ingresa la Nota: ");
+                    double nueva = double.Parse(Console.ReadLine());
+                    if (nueva < 0 || nueva > 100)
+                    {
+                        Console.WriteLine("La nota no puede ser mas de 100");
+                    }
+                    else
+                    {
+
+
+                        Notas.Add(nueva);
+                    }
+                    break;
+
+                case 2:
+                    if (Notas.Count == 0)
+                    {
+                        Console.WriteLine("No hay Notas para eliminar.");
+                        break;
+                    }
+
+                    Console.WriteLine("Notas actuales:");
+                    foreach (double c in Notas)
+                        Console.WriteLine("- " + c);
+
+                    Console.Write("Escribe la Nota que deseas eliminar: ");
+                    double eliminar = double.Parse(Console.ReadLine());
+
+                    if (Notas.Remove(eliminar))
+                        Console.WriteLine("Nota eliminada ");
+                    else
+                        Console.WriteLine("Esa Nota no existe o no esta registrada");
+                    break;
+
+                case 3:
+                    if (Notas.Count == 0)
+                    {
+                        Console.WriteLine("No hay Notas para buscar.");
+                        break;
+                    }
+                    Console.WriteLine("Notas actuales:");
+                    foreach (double c in Notas)
+                        Console.WriteLine("- " + c);
+                    Console.Write("Nota a buscar: ");
+                    double buscar = double.Parse(Console.ReadLine());
+                    if (Notas.Contains(buscar))
+                        Console.WriteLine("La Nota esta en la lista.");
+                    else
+                        Console.WriteLine("No se encontro la Nota.");
+                    break;
+
+                case 4:
+                    if (Notas.Count == 0)
+                    {
+                        Console.WriteLine("No hay Notas para Ordenar.");
+                        break;
+                    }
+                    Notas.Sort();
+                    Notas.Reverse();
+                    Console.WriteLine("Notas ordenadas de mayor a menor");
+                    foreach (double nota in Notas)
+                        Console.WriteLine("- " + nota);
+                    break;
+
+                case 5:
+                    if (Notas.Count == 0)
+                        Console.WriteLine("No hay Notas registradas.");
+                    else
+                    {
+                        Console.WriteLine("Notas registradas:");
+                        foreach (double c in Notas)
+                            Console.WriteLine(c);
+                    }
+                    break;
+
+                case 6:
+                    Console.WriteLine("Saliendo");
+                    break;
+
+                default:
+                    Console.WriteLine("Nuemro invalido intente de nuevo");
+                    break;
+            }
+
+        } while (op != 6);
+    }
+}
+
+//numeros.Sort ascendente
+ // numeros.Reverse
