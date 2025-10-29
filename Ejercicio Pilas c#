@@ -1,0 +1,439 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+
+class Ejercicios10lUISlopez
+{
+    static void Main(string[] args)
+    {
+        {
+            Console.WriteLine("EJercicio 1");
+            Console.Write("Escriba una cadena de texto: ");
+            string texto = Console.ReadLine();
+
+
+            Stack<string> pila = new Stack<string>();
+
+
+            for (int i = 0; i < texto.Length; i++)
+            {
+                pila.Push(texto[i].ToString());
+            }
+
+
+            string textoalcontrario = " ";
+            while (pila.Count > 0)
+            {
+                textoalcontrario += pila.Pop();
+            }
+
+
+            Console.WriteLine("Texto invertido:");
+            Console.WriteLine(textoalcontrario);
+            Console.WriteLine("------------------------------");
+        }
+        {
+
+            // EJERCICIO 2
+
+            Console.WriteLine("Ejercicio 2");
+            Console.Write("Ingrese algo con paréntesis: ");
+            string parentesis = Console.ReadLine();
+
+            if (Balanceada(parentesis))
+                Console.WriteLine("Los parentesis estan balanceados.");
+            else
+                Console.WriteLine("Los paréntesis NO estan balanceados.");
+        }
+
+        static bool Balanceada(string texto)
+        {
+            Stack<char> pila = new Stack<char>();
+
+            foreach (char c in texto)
+            {
+                // Si es un parentesis de apertura lo apila
+                if (c == '(' || c == '{' || c == '[')
+                {
+                    pila.Push(c);
+                }
+                // Si es uno de cierre verificamos que coincida con el ultimo abierto
+                else if (c == ')' || c == '}' || c == ']')
+                {
+                    if (pila.Count == 0)
+                        return false;
+
+                    char ultimo = pila.Pop();
+
+                    // Validamos que el tipo coincida correctamente
+                    if ((c == ')' && ultimo != '(') || (c == '}' && ultimo != '{') || (c == ']' && ultimo != '['))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            // Si al final no quedo nada en la pila, esta balanceado
+            return pila.Count == 0;
+        }
+        Console.WriteLine("-----------------------");
+        {
+            //EJERCICIO 3
+            Console.WriteLine("Ejercicio 3");
+            Console.Write("Ingrese un numero : ");
+            int numero = int.Parse(Console.ReadLine());
+
+            string binario = DeciABin(numero);
+            Console.WriteLine("El numero en binario es: " + binario);
+        }
+
+        static string DeciABin(int numero)
+        {
+            if (numero == 0)
+                return "0";
+
+            Stack<int> pila = new Stack<int>();
+
+            while (numero > 0)
+            {
+                int residuo = numero % 2;
+                pila.Push(residuo);
+                numero = numero / 2;
+            }
+
+            string resultado = "";
+            while (pila.Count > 0)
+            {
+                resultado += pila.Pop();
+            }
+
+            return resultado;
+
+        }
+        Console.WriteLine("-------------------------");
+        {
+            // Ejercicio 4 
+            Console.WriteLine("Ejercicio 4");
+            Console.WriteLine("Ingrese una expresión postfija (ejemplo: 3 4 + 2 *): ");
+            string expresion = Console.ReadLine();
+            double resultado = EvaluarPostfija(expresion);
+            Console.WriteLine("Resultado: " + resultado);
+        }
+
+        static double EvaluarPostfija(string expresion)
+        {
+            Stack<double> pila = new Stack<double>();
+            string[] partes = expresion.Split(' ');
+
+            foreach (string p in partes)
+            {
+                if (p == "+" || p == "-" || p == "*" || p == "/")
+                {
+                    double b = pila.Pop();
+                    double a = pila.Pop();
+
+                    if (p == "+") pila.Push(a + b);
+                    else if (p == "-") pila.Push(a - b);
+                    else if (p == "*") pila.Push(a * b);
+                    else if (p == "/") pila.Push(a / b);
+                }
+                else
+                {
+                    pila.Push(double.Parse(p));
+                }
+            }
+
+            return pila.Pop();
+        }
+        Console.WriteLine("-------------------------");
+        //Ejercicio 5
+        {
+            Console.WriteLine("Ejercicio 5");
+            Stack<string> pilaTexto = new Stack<string>();
+            string texto = "";
+
+            while (true)
+            {
+                Console.WriteLine("Texto actual: " + texto);
+                Console.WriteLine("1 Escribir texto");
+                Console.WriteLine("2 Deshacer ultima accion");
+                Console.WriteLine("3 Salir");
+                Console.Write("Elige una opcion: ");
+                string opcion = Console.ReadLine();
+
+                if (opcion == "1")
+                {
+                    Console.Write("Escribe algo: ");
+                    string nuevoTexto = Console.ReadLine();
+
+                    pilaTexto.Push(texto);
+                    texto += nuevoTexto;
+                }
+                else if (opcion == "2")
+                {
+                    if (pilaTexto.Count > 0)
+                        texto = pilaTexto.Pop();
+                    else
+                        Console.WriteLine("No hay que deshacer.");
+                }
+                else if (opcion == "3")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Opcion invalida.");
+                }
+                Console.WriteLine("------------------------------");
+            }
+        }
+        // Ejercicio 6 
+        {
+            Console.WriteLine("Ejercicio 6");
+            Console.Write("Digite una palabra: ");
+            string P = Console.ReadLine().ToLower();
+
+            Stack<char> pila = new Stack<char>();
+
+            // Apilar cada carácter
+            foreach (char c in P)
+                pila.Push(c);
+
+            string alreves = "";
+
+            // Desapilar para construir la palabra al revés
+            while (pila.Count > 0)
+                alreves += pila.Pop();
+
+            if (P == alreves)
+                Console.WriteLine("Es palindromo.");
+            else
+                Console.WriteLine("No es palindromo.");
+        }
+        Console.WriteLine("*********************");
+        {
+            Console.WriteLine("Ejercicio 7");
+            Console.Write("Ingresa una oración: ");
+            string oracion = Console.ReadLine();
+
+            // Dividir la oración en palabras
+            string[] palabras = oracion.Split(' ');
+
+            // Crear una pila para las palabras
+            Stack<string> pila = new Stack<string>();
+
+            // Apilar cada palabra
+            foreach (string palabra in palabras)
+                pila.Push(palabra);
+
+            // Desapilar para formar la oración invertida
+            string invertida = "";
+            while (pila.Count > 0)
+            {
+                invertida += pila.Pop();
+                if (pila.Count > 0)
+                    invertida += " ";
+            }
+
+            Console.WriteLine("Oracion invertida: " + invertida);
+        }
+        Console.WriteLine("-------------------------------");
+        Console.WriteLine("Ejercicio 8");
+        {
+            Console.Write("Escribe una expresión matemática (ej: 8 + (3 * 2)): ");
+            string entrada = Console.ReadLine().Replace(" ", "");
+
+            Stack<double> numeros = new Stack<double>();     // Guarda los valores
+            Stack<char> operadores = new Stack<char>();      // Guarda los operadores
+
+            for (int i = 0; i < entrada.Length; i++)
+            {
+                char c = entrada[i];
+
+                if (char.IsDigit(c))
+                {
+                    string numeroCompleto = "" + c;
+
+                    while (i + 1 < entrada.Length && char.IsDigit(entrada[i + 1]))
+                    {
+                        numeroCompleto += entrada[++i];
+                    }
+
+                    numeros.Push(double.Parse(numeroCompleto));
+                }
+                else if (c == '(')
+                {
+                    operadores.Push(c);
+                }
+                else if (c == ')')
+                {
+                    while (operadores.Peek() != '(')
+                    {
+                        EjecutarOperacion(numeros, operadores.Pop());
+                    }
+                    operadores.Pop(); // Eliminar el '('
+                }
+                else if (EsOperador(c))
+                {
+                    while (operadores.Count > 0 && Prioridad(operadores.Peek()) >= Prioridad(c))
+                    {
+                        EjecutarOperacion(numeros, operadores.Pop());
+                    }
+                    operadores.Push(c);
+                }
+            }
+
+            while (operadores.Count > 0)
+            {
+                EjecutarOperacion(numeros, operadores.Pop());
+            }
+
+            Console.WriteLine("Resultado final: " + numeros.Pop());
+        }
+
+        static bool EsOperador(char operador)
+        {
+            return operador == '+' || operador == '-' || operador == '*' || operador == '/';
+        }
+
+        static int Prioridad(char operador)
+        {
+            if (operador == '+' || operador == '-') return 1;
+            if (operador == '*' || operador == '/') return 2;
+            return 0;
+        }
+
+        static void EjecutarOperacion(Stack<double> pilaNumeros, char operador)
+        {
+            double segundo = pilaNumeros.Pop();
+            double primero = pilaNumeros.Pop();
+
+            switch (operador)
+            {
+                case '+':
+                    pilaNumeros.Push(primero + segundo);
+                    break;
+
+                case '-':
+                    pilaNumeros.Push(primero - segundo);
+                    break;
+
+                case '*':
+                    pilaNumeros.Push(primero * segundo);
+                    break;
+
+                case '/':
+                    pilaNumeros.Push(primero / segundo);
+                    break;
+            }
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine("Ejercicio 9");
+            {
+                Stack<string> atras = new Stack<string>();
+                Stack<string> adelante = new Stack<string>();
+                string paginaActual = "Inicio";
+
+                while (true)
+                {
+                    Console.WriteLine($"Pagina actual: {paginaActual}");
+                    Console.WriteLine("1. Visitar nueva página");
+                    Console.WriteLine("2. Ir atras");
+                    Console.WriteLine("3. Ir adelante");
+                    Console.WriteLine("4. Salir");
+                    Console.Write("Elija una opcion: ");
+                    string opcion = Console.ReadLine();
+                    Console.WriteLine();
+
+                    if (opcion == "1")
+                    {
+                        atras.Push(paginaActual);
+                        Console.Write("Ingrese la nueva página: ");
+                        paginaActual = Console.ReadLine();
+                        adelante.Clear();
+                    }
+                    else if (opcion == "2")
+                    {
+                        if (atras.Count > 0)
+                        {
+                            adelante.Push(paginaActual);
+                            paginaActual = atras.Pop();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay paginas anteriores.");
+                        }
+                    }
+                    else if (opcion == "3")
+                    {
+                        if (adelante.Count > 0)
+                        {
+                            atras.Push(paginaActual);
+                            paginaActual = adelante.Pop();
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay paginas siguientes.");
+                        }
+                    }
+                    else if (opcion == "4")
+                    {
+                        Console.WriteLine("Saliendo del historial...");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Opcion inválida.");
+                    }
+
+                    Console.WriteLine("--------------------------------");
+
+                }
+            }
+            Console.WriteLine("Ejercicio 10");
+            {
+                Console.Write("Escribe una expresión infija (ej: A + B * C): ");
+                string expresion = Console.ReadLine().Replace(" ", "");
+
+                Stack<char> operadores = new Stack<char>();
+                string salida = "";
+
+                foreach (char c in expresion)
+                {
+                    // Si es una letra o número, va directo a la salida
+                    if (char.IsLetterOrDigit(c))
+                    {
+                        salida += c + " ";
+                    }
+                    else if (c == '(')
+                    {
+                        operadores.Push(c);
+                    }
+                    else if (c == ')')
+                    {
+                        while (operadores.Count > 0 && operadores.Peek() != '(')
+                        {
+                            salida += operadores.Pop() + " ";
+                        }
+                        operadores.Pop(); // Quitar el '('
+                    }
+                    else if (EsOperador(c))
+                    {
+                        while (operadores.Count > 0 && Prioridad(operadores.Peek()) >= Prioridad(c))
+                        {
+                            salida += operadores.Pop() + " ";
+                        }
+                        operadores.Push(c);
+                    }
+                }
+
+                // Sacar los que queden en la pila
+                while (operadores.Count > 0)
+                {
+                    salida += operadores.Pop() + " ";
+                }
+
+                Console.WriteLine("Expresión en postfija: " + salida);
+            }
+        }
+    }
+}
